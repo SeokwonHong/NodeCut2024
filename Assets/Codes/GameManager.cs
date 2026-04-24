@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     private GameObject heart3;
 
     public GameObject heart1Prefab;
-    public GameObject heart2Prefab;  // Prefab을 참조하는 변수 (Unity 에디터에서 할당)
+    public GameObject heart2Prefab; 
     public GameObject heart3Prefab;
 
     byte heart=3;
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
 
-        // Heart 감소 처리
+ 
         if (heart == 2 && heart3 != null)
         {
             Destroy(heart3);
@@ -106,10 +106,10 @@ public class GameManager : MonoBehaviour
             GameOver = true;
         }
 
-        // Heart 증가/재생성 처리
+      
         UpdateHearts();
 
-        // 최대 Heart 개수 제한
+
         if (heart > 3) heart = 3;
 
 
@@ -120,7 +120,6 @@ public class GameManager : MonoBehaviour
             hasExecuted = true;
         }
 
-        // 다른 조건에서 플래그 초기화
         if (score % 10 != 0)
         {
             hasExecuted = false;
@@ -133,8 +132,8 @@ public class GameManager : MonoBehaviour
 
         if (GameOver)
         {
-            PlayerPrefs.SetInt("Score", score);  // "Score"라는 키로 점수 저장
-            PlayerPrefs.Save(); // 저장 확정
+            PlayerPrefs.SetInt("Score", score); 
+            PlayerPrefs.Save(); 
         }
     }
     
@@ -154,14 +153,14 @@ public class GameManager : MonoBehaviour
     private void CreateHeart(int index, ref GameObject heart, GameObject prefab)
     {
         Vector3[] positions = {
-        new Vector3(-8, -3.4f, 0),  // heart1 위치
-        new Vector3(-7.3f, -3.46f, 0), // heart2 위치
-        new Vector3(-6.59f, -3.46f, 0) // heart3 위치
+        new Vector3(-8, -3.4f, 0),  
+        new Vector3(-7.3f, -3.46f, 0), 
+        new Vector3(-6.59f, -3.46f, 0) 
     };
 
         heart = Instantiate(prefab);
-        heart.transform.position = positions[index]; // 위치 설정
-        heart.transform.localScale = new Vector3(0.07f, 0.07f, 0.07f); // 크기 설정
+        heart.transform.position = positions[index]; 
+        heart.transform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
     }
 
     
@@ -179,7 +178,7 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             nodeComponent.EnemyRespone();
-            yield return new WaitForSeconds(1f); // 2초 대기
+            yield return new WaitForSeconds(1f);
         }
     }
     public void ScoreUp()

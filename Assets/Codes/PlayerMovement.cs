@@ -3,7 +3,7 @@ using System.Collections;
 using TMPro;
 public class PlayerMovement : MonoBehaviour
 {
-    private NodeManager nodeComponent; // NodeManager MonoBehaviour 참조
+    private NodeManager nodeComponent;
     public GameObject playerPrefab;
     public Player player;
 
@@ -65,25 +65,25 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            MovePlayer(-1); // 왼쪽 이동
+            MovePlayer(-1);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            MovePlayer(1); // 오른쪽 이동
+            MovePlayer(1); 
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            MovePlayer(0); // 뒤로 이동
+            MovePlayer(0);
         }
         else if (Input.GetKeyDown(KeyCode.Delete))
         {
-            MovePlayer(4); // 뒤로 이동
+            MovePlayer(4);
         }
     }
 
     void MovePlayer(int direction)
     {
-        if (isMoving) return;  // isMoving이 false일 때만 이동을 시작
+        if (isMoving) return; 
 
         
         if (nodeComponent.nodeMap2.TryGetValue(player.currentIndex, out NodeManager.Node targetNode))
@@ -175,7 +175,7 @@ public class PlayerMovement : MonoBehaviour
             else
                 return (currentIndex - 1) / 2;
         }
-        return 1; // 루트 노드로 되돌아감
+        return 1;
     }
 
     void nodeDelete()
