@@ -8,8 +8,8 @@ public class PlayerMovement : MonoBehaviour
     public Player player;
 
     //Player Movement
-    public Transform pointA;
-    public Transform pointB;
+    private Transform pointA;
+    private Transform pointB;
 
     bool isMoving;
 
@@ -136,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator PlayerAnimation(NodeManager.Node targetNode)
     {
-        float moveSpeed = 7f;
+        float moveSpeed = 10f;
         float t = 0f;
 
         Vector2 pointA = player.playerObject.transform.position;

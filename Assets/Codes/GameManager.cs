@@ -59,12 +59,12 @@ public class GameManager : MonoBehaviour
 
     void CountDown()
     {
-        if (startSecond > 0)
+        if (startSecond > 1)
         {
             startSecond--;
             countBeforeStartText.text = startSecond.ToString();
         }
-        else if (startSecond == 0)
+        else if (startSecond == 1)
         {
             countBeforeStartText.text = "START!";
             startSecond = -1; // prevent repeat
@@ -171,7 +171,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("EndGame");
         }
     }
-    public void Gold()
+    public void Heart()
     {
         score += 5;
 

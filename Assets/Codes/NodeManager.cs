@@ -314,7 +314,7 @@ class NodeManager: MonoBehaviour
                 }
                 else if (enemy.CompareTag("Heart"))
                 {
-                    gameManager.Gold();
+                    gameManager.Heart();
                   
                 }
 
