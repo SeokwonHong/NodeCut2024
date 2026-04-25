@@ -1,11 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,34 +16,31 @@ public class GameManager : MonoBehaviour
 
     public GameObject refToScore;
     //score;
-    //public TextMesh textMesh;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI countBeforeStartText;
 
-    public int score = 0;
+
     bool gameStart = false;
     private int lastScore = 0;
     // heart
-    private GameObject heart1;
-    private GameObject heart2;
-    private GameObject heart3;
-
-    public GameObject heart1Prefab;
-    public GameObject heart2Prefab; 
-    public GameObject heart3Prefab;
+    [SerializeField] private Image heart1;
+    [SerializeField] private Image heart2;
+    [SerializeField] private Image heart3;
 
     byte heart=3;
 
-    public TextMesh refToCountBeforeStart;
-    int startSecond = 3;
+    private int startSecond = 3;
     public bool isGameRunning = false;
-    // 利 加档
+
 
     bool hasExecuted;
-
-    TextMesh textMesh;
-
-    // 笼
-
     public ParticleSystem particle;
+
+    //Getter
+    private int score = 0;
+    public int Score => score;
+
+
     private void Start()
     {
         particle.gameObject.SetActive(false);
@@ -53,58 +48,39 @@ public class GameManager : MonoBehaviour
         nodeComponent = GetComponent<NodeManager>();
         playerMovement = GetComponent<PlayerMovement>();
 
-        textMesh = refToScore.GetComponent<TextMesh>();
+        scoreText = refToScore.GetComponent<TextMeshProUGUI>();
         StartCoroutine(EnemySponding());
 
-        // 檬扁 窍飘 积己
+  
         UpdateHearts();
-        InvokeRepeating(nameof(DecreaseTime), 1.0f, 1.0f);
+        countBeforeStartText.text = startSecond.ToString();
+        InvokeRepeating(nameof(CountDown), 1f, 1f);
     }
 
-    void DecreaseTime()
+    void CountDown()
     {
         if (startSecond > 0)
         {
             startSecond--;
-            refToCountBeforeStart.text = ""+startSecond;
+            countBeforeStartText.text = startSecond.ToString();
         }
-        if(startSecond==0)
+        else if (startSecond == 0)
         {
-            refToCountBeforeStart.text = "START!";
-            startSecond--;
+            countBeforeStartText.text = "START!";
+            startSecond = -1; // prevent repeat
             StartCoroutine(DestroyTextAfterDelay(1f));
         }
     }
     IEnumerator DestroyTextAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        Destroy(refToCountBeforeStart);
-        isGameRunning= true;
+        countBeforeStartText.gameObject.SetActive(false);
+        isGameRunning = true;
         particle.gameObject.SetActive(true);
     }
 
     private void Update()
     {
-
- 
-        if (heart == 2 && heart3 != null)
-        {
-            Destroy(heart3);
-            heart3 = null;
-        }
-
-        if (heart == 1 && heart2 != null)
-        {
-            Destroy(heart2);
-            heart2 = null;
-        }
-
-        if (heart == 0 && heart1 != null)
-        {
-            Destroy(heart1);
-            heart1 = null;
-            GameOver = true;
-        }
 
       
         UpdateHearts();
@@ -136,18 +112,12 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.Save(); 
         }
     }
-    
+
     private void UpdateHearts()
     {
-        // Heart 积己 肺流
-        if (heart >= 1 && heart1 == null)
-            CreateHeart(0, ref heart1, heart1Prefab);
-
-        if (heart >= 2 && heart2 == null)
-            CreateHeart(1, ref heart2, heart2Prefab);
-
-        if (heart >= 3 && heart3 == null)
-            CreateHeart(2, ref heart3, heart3Prefab);
+        heart1.enabled = heart >= 1;
+        heart2.enabled = heart >= 2;
+        heart3.enabled = heart >= 3;
     }
 
     private void CreateHeart(int index, ref GameObject heart, GameObject prefab)
@@ -184,28 +154,37 @@ public class GameManager : MonoBehaviour
     public void ScoreUp()
     {
         score++;
-        textMesh.text = "Score: " + score;
+        scoreText.text = "Score: " + score;
     }
 
     public void ScoreDown()
     {
-        
-        //score -=5;
-        heart--;
-        
-        if (score < 0) score = 0;
-        textMesh.text = "Score: " + score;
+        if (heart > 0)
+            heart--;
+
+        UpdateHearts();
+
+        if (heart <= 0)
+        {
+            PlayerPrefs.SetInt("Score", score);
+            PlayerPrefs.Save();
+            SceneManager.LoadScene("EndGame");
+        }
     }
     public void Gold()
     {
-        score+=5;
-        textMesh.text = "Score: " + score;
-        heart++;
-    }
-  
-    
+        score += 5;
 
-        
+        if (heart < 3)
+            heart++;
+
+        scoreText.text = "Score: " + score;
+        UpdateHearts();
+    }
+
+
+
+
 
 
 }

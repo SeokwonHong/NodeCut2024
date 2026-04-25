@@ -31,11 +31,12 @@ public class PlayerMovement : MonoBehaviour
         player = new Player(playerPrefab);
         nodeComponent = GetComponent<NodeManager>();
 
-        if (nodeComponent != null && nodeComponent.root != null)
+        if (nodeComponent != null && nodeComponent.Root != null)
         {
             player.currentIndex = 1;
-            player.playerObject.transform.position = nodeComponent.root.nodeObject.transform.position;
+            player.playerObject.transform.position = nodeComponent.Root.nodeObject.transform.position;
         }
+        
 
     }
     
@@ -55,10 +56,10 @@ public class PlayerMovement : MonoBehaviour
         player = new Player(playerPrefab);
         nodeComponent = GetComponent<NodeManager>();
 
-        if (nodeComponent != null && nodeComponent.root != null)
+        if (nodeComponent != null && nodeComponent.Root != null)
         {
             player.currentIndex = 1;
-            player.playerObject.transform.position = nodeComponent.root.nodeObject.transform.position;
+            player.playerObject.transform.position = nodeComponent.Root.nodeObject.transform.position;
         }
     }
     void HandleMovementInput()
@@ -123,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
 
     void MovePlayerToCurrentIndex()
     {
-     // PlayerAnimation 코루틴 실행
+
             if (nodeComponent.nodeMap2.TryGetValue(player.currentIndex, out NodeManager.Node targetNode))
             {
                

@@ -9,42 +9,31 @@ using UnityEngine.UIElements;
 
 class NodeManager: MonoBehaviour
 {
-    public GameManager gameManager;
+    [SerializeField] GameManager gameManager;
 
-    public PlayerMovement playerMovement;
-    public GameObject refToEngine;
-    public GameObject nodePrefab,
+    [SerializeField] PlayerMovement playerMovement;
+    [SerializeField] GameObject refToEngine;
+    [SerializeField] GameObject nodePrefab,
     linePrefab, enemyPrefab;
 
     public int nodeLevel=0;
 
-    public GameObject refToAskedNode;
+    [SerializeField] GameObject refToAskedNode;
 
-    public Node root; 
+    [SerializeField] Node root; 
     float nodeSpacing = 2.0f; 
     float nodeHeight;
 
     public bool gameHasStarted = false;
-
-
-
     public Transform objectChild;
     public Transform objectParent;
-
-    private Rigidbody rb;
-
-
-
     public Material refToScoreShader;
     public Material refToGold;
-
-
-
     public float speedA=0.3f;
-
-
     public Sprite refToHeart;
 
+    //Getter
+    public Node Root => root;
    
     public class Node
     {
@@ -55,7 +44,7 @@ class NodeManager: MonoBehaviour
         public GameObject nodeObject;
         public LineRenderer leftLine;
         public LineRenderer rightLine;
-        public int experiment;
+
 
         public Node(int index, GameObject nodeObject)
         {
@@ -75,7 +64,6 @@ class NodeManager: MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         gameManager = GetComponent<GameManager>();
 
-        rb = GetComponent<Rigidbody>();
 
     }
 
@@ -130,8 +118,6 @@ class NodeManager: MonoBehaviour
     
 
 
-
-    // 트리를 분열시키는 메서드
     (float, float) IndexSpaing(int index)
     {
         if(index == 1) return (4.4f, 1.1f);
